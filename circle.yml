@@ -1,0 +1,50 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker version
+
+    - docker build  -f test/Dockerfile-ubuntu14.04  -t mongodb_trusty   .
+    - docker build  -f test/Dockerfile-ubuntu12.04  -t mongodb_precise  .
+    ###- docker build  -f test/Dockerfile-debian8      -t mongodb_jessie   .
+    - docker build  -f test/Dockerfile-debian7      -t mongodb_wheezy   .
+    - docker build  -f test/Dockerfile-centos7      -t mongodb_centos7  .
+    - docker build  -f test/Dockerfile-centos6      -t mongodb_centos6  .
+
+test:
+  override:
+    - docker run -d --name c1 mongodb_trusty
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)
+    - docker run -i mongodb_trusty  mongo --eval "printjson(db.stats())" --host $IP > result-ubuntu14.04
+
+    - docker run -d --name c2 mongodb_precise
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)
+    - docker run -i mongodb_precise  mongo --eval "printjson(db.stats())" --host $IP > result-ubuntu12.04
+
+    #- docker run -d --name c3 mongodb_jessie
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)
+    #- docker run -i mongodb_jessie  mongo --eval "printjson(db.stats())" --host $IP > result-debian8
+
+    - docker run -d --name c4 mongodb_wheezy
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)
+    - docker run -i mongodb_wheezy  mongo --eval "printjson(db.stats())" --host $IP > result-debian7
+
+    - docker run -d --name c5 mongodb_centos7
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)
+    - docker run -i mongodb_centos7  mongo --eval "printjson(db.stats())" --host $IP > result-centos7
+
+    - docker run -d --name c6 mongodb_centos6
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)
+    - docker run -i mongodb_centos6  mongo --eval "printjson(db.stats())" --host $IP > result-centos6
+
+
+    - echo "==> Validating the test results..."
+    - grep 'storageSize' result-ubuntu14.04
+    - grep 'storageSize' result-ubuntu12.04
+    ###- grep 'storageSize' result-debian8
+    - grep 'storageSize' result-debian7
+    - grep 'storageSize' result-centos7
+    - grep 'storageSize' result-centos6

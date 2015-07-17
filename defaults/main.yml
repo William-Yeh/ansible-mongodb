@@ -1,0 +1,38 @@
+---
+
+#
+# variables needed to be defined in user's playbook
+#
+
+
+
+#
+# user-configurable defaults
+#
+
+
+#mongodb_version:           3.0.4     # will install the default (usually the latest stable) version, if not specified.
+
+
+# which components to install?
+# possible values:
+#  - "mongod"
+#  - "mongos"
+mongodb_components: [ "mongod" ]
+
+
+mongodb_configsvr:      false         # install mongod as a config server?
+
+mongodb_configsvr_port: 27019         # TCP port of config server
+
+
+
+
+gosu_version:  1.4
+
+
+#---- the following vars are handled in tasks/set-role-variables.yml ------
+
+#mongodb_use_service:       True      # use "service" command to start/restart mongodb?
+
+#mongodb_in_selinux:        False

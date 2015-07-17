@@ -1,0 +1,55 @@
+---
+# file: tasks/main.yml
+# Top-level installer for MongoDB.
+#
+# @see http://docs.mongodb.org/manual/administration/install-on-linux/
+#
+
+- name: set role variables, if necessary
+  include: set-role-variables.yml
+
+
+- name: install libselinux-python binary for Ansible to work
+  yum: name=libselinux-python state=present
+  when: ansible_pkg_mgr == "yum"
+
+#- name: delegate to SELINUX handling subtask, if necessary
+#  include: set-selinux.yml
+#  when: mongodb_in_selinux is defined and mongodb_in_selinux == true
+
+
+
+- name: delegate to APT system for installation
+  include: use-apt.yml
+  when: ansible_pkg_mgr == "apt"
+
+- name: delegate to YUM system for installation
+  include: use-yum.yml
+  when: ansible_pkg_mgr == "yum"
+
+
+#
+# config files: mongod
+#
+
+- name: copy mongod config file from playbook's, if any
+  template: src={{ playbook_dir }}/{{ mongodb_mongod_conf }}  dest=/etc/mongod.conf
+  when: '("mongod" in mongodb_components)  and  (mongodb_mongod_conf is defined)'
+  notify:
+    - restart mongod
+
+#
+# config files: mongos
+#
+
+- name: copy mongos config file from playbook's, if any
+  template: src={{ playbook_dir }}/{{ mongodb_mongos_conf }}  dest=/etc/mongos.conf
+  when: '("mongos" in mongodb_components)  and  (mongodb_mongos_conf is defined)'
+  notify:
+    - restart mongos
+
+- name: copy mongos config file from role's default, if necessary
+  template: src=../templates/mongos.conf.j2  dest=/etc/mongos.conf
+  when: '("mongos" in mongodb_components)  and  (mongodb_mongos_conf is not defined)'
+  notify:
+    - restart mongos

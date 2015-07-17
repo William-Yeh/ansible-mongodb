@@ -1,0 +1,29 @@
+---
+# file: handlers/main.yml
+#
+
+- name: restart mongod
+  service: name=mongod state=restarted
+  when: mongodb_use_service|bool
+
+- name: reload mongodb
+  service: name=mongodb state=reloaded
+  when: mongodb_use_service|bool
+
+- name: stop mongod
+  service: name=mongod state=stopped
+  when: mongodb_use_service|bool
+
+
+
+- name: restart mongos
+  service: name=mongos state=restarted
+  when: mongodb_use_service|bool
+
+- name: reload mongods
+  service: name=mongods state=reloaded
+  when: mongodb_use_service|bool
+
+- name: stop mongos
+  service: name=mongos state=stopped
+  when: mongodb_use_service|bool

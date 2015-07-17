@@ -1,0 +1,21 @@
+# mongos.conf
+# config for MongoDB routing server (mongos)
+
+configdb=configsvr.example.com:{{ mongodb_configsvr_port }}
+
+# HA setting
+#configdb=mongocfg-1:{{ mongodb_configsvr_port }},mongocfg-2:{{ mongodb_configsvr_port }},mongocfg-3:{{ mongodb_configsvr_port }}
+
+
+logpath=/var/log/mongodb/mongos.log
+logappend=true
+
+
+
+{% if ansible_os_family == "RedHat" %}
+
+# processManagement.pidFilePath required by /etc/init.d/mongo**
+# @see http://docs.mongodb.org/manual/reference/configuration-options/
+pidfilepath=/var/run/mongodb/mongos.pid
+
+{% endif %}

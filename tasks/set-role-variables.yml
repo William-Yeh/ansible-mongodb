@@ -1,0 +1,27 @@
+---
+# file: tasks/set-role-variables.yml
+# set necessary role variables.
+#
+
+- name: set mongodb_use_service = True, if not defined
+  set_fact:
+    mongodb_use_service: True
+  when: mongodb_use_service is not defined
+
+
+
+#- name: set mongodb_in_selinux = True for CentOS 6
+#  set_fact:
+#    mongodb_in_selinux: True
+#  when: mongodb_in_selinux is not defined and ansible_distribution|lower == "centos" and ansible_distribution_major_version == "6"
+#
+#- name: set mongodb_in_selinux = True for RHEL 6
+#  set_fact:
+#    mongodb_in_selinux: True
+#  when: mongodb_in_selinux is not defined and ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == "6"
+#
+#- name: set mongodb_in_selinux = True, judging from the context
+#  set_fact:
+#    mongodb_in_selinux: True
+#  when: mongodb_in_selinux is not defined and ansible_selinux == true or (ansible_selinux.status is defined and ansible_selinux.status == "enabled")
+#

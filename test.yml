@@ -1,0 +1,18 @@
+- hosts: all
+  sudo: True
+  tasks:
+    - include: 'tasks/main.yml'
+  handlers:
+    - include: 'handlers/main.yml'
+  vars_files:
+    - 'defaults/main.yml'
+
+  vars:
+    #mongodb_version: 1.8.0
+
+    #mongodb_components: [ "mongod" ]
+    #mongodb_components: [ "mongos" ]
+    #mongodb_components: [ "mongod", "mongos" ]
+
+    mongodb_mongod_conf:    "test/mongod.conf.j2"
+    #mongodb_configsvr:  true

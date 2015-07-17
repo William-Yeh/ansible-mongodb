@@ -1,0 +1,47 @@
+# mongod.conf
+# config for MongoDB data server
+{% if  mongodb_configsvr  and  '"mongod" in mongodb_components'  %}
+# (... as a config server)
+{% endif %}
+
+
+{% if ansible_os_family == "Debian" %}
+
+dbpath=/var/lib/mongodb
+
+{% elif ansible_os_family == "RedHat" %}
+
+dbpath=/var/lib/mongo
+pidfilepath=/var/run/mongodb/mongod.pid
+
+# fork and run in background
+fork=true
+
+{% endif %}
+
+
+logpath=/var/log/mongodb/mongod.log
+logappend=true
+#replSet =
+
+
+
+
+{% if  mongodb_configsvr  and  '"mongod" in mongodb_components'  %}
+
+configsvr = true
+port = {{ mongodb_configsvr_port }}
+
+{% else %}
+
+#port = 27017
+
+{% endif %}
+
+
+
+
+# Listen to local interface only. Comment out to listen on all interfaces.
+bind_ip = 127.0.0.1
+
+#keyFile=/path/to/keyfile
