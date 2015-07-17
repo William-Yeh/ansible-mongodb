@@ -17,28 +17,34 @@ dependencies:
 test:
   override:
     - docker run -d --name c1 mongodb_trusty
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)
-    - docker run -i mongodb_trusty  mongo --eval "printjson(db.stats())" --host $IP > result-ubuntu14.04
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)  ;  echo $IP > hostip
+    - cat hostip  |  xargs -t -n 1  \
+      docker run -i mongodb_trusty  mongo --eval "printjson(db.stats())" --host  > result-ubuntu14.04
 
     - docker run -d --name c2 mongodb_precise
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)
-    - docker run -i mongodb_precise  mongo --eval "printjson(db.stats())" --host $IP > result-ubuntu12.04
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)  ;  echo $IP > hostip
+    - cat hostip  |  xargs -t -n 1  \
+      docker run -i mongodb_precise  mongo --eval "printjson(db.stats())" --host  > result-ubuntu12.04
 
     #- docker run -d --name c3 mongodb_jessie
-    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)
-    #- docker run -i mongodb_jessie  mongo --eval "printjson(db.stats())" --host $IP > result-debian8
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)  ;  echo $IP > hostip
+    #- cat hostip  |  xargs -t -n 1  \
+    #  docker run -i mongodb_jessie  mongo --eval "printjson(db.stats())" --host  > result-debian8
 
     - docker run -d --name c4 mongodb_wheezy
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)
-    - docker run -i mongodb_wheezy  mongo --eval "printjson(db.stats())" --host $IP > result-debian7
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)  ;  echo $IP > hostip
+    - cat hostip  |  xargs -t -n 1  \
+      docker run -i mongodb_wheezy  mongo --eval "printjson(db.stats())" --host  > result-debian7
 
     - docker run -d --name c5 mongodb_centos7
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)
-    - docker run -i mongodb_centos7  mongo --eval "printjson(db.stats())" --host $IP > result-centos7
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)  ;  echo $IP > hostip
+    - cat hostip  |  xargs -t -n 1  \
+      docker run -i mongodb_centos7  mongo --eval "printjson(db.stats())" --host  > result-centos7
 
     - docker run -d --name c6 mongodb_centos6
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)
-    - docker run -i mongodb_centos6  mongo --eval "printjson(db.stats())" --host $IP > result-centos6
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)  ;  echo $IP > hostip
+    - cat hostip  |  xargs -t -n 1  \
+      docker run -i mongodb_centos6  mongo --eval "printjson(db.stats())" --host  > result-centos6
 
 
     - echo "==> Validating the test results..."
