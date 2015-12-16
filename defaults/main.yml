@@ -28,7 +28,7 @@ mongodb_configsvr_port: 27019         # TCP port of config server
 
 
 
-gosu_version:  1.4
+gosu_version:  1.7
 
 
 #---- the following vars are handled in tasks/set-role-variables.yml ------

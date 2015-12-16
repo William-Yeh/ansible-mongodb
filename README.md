@@ -8,11 +8,11 @@ williamyeh.mongodb for Ansible Galaxy
 
 ## Summary
 
-Role name in Ansible Galaxy: **[williamyeh.mongodb](https://galaxy.ansible.com/list#/roles/4405)**
+Role name in Ansible Galaxy: **[williamyeh.mongodb](https://galaxy.ansible.com/detail#/role/4405)**
 
 This Ansible role has the following features for MongoDB:
 
- - Install specific version.
+ - Install specific version;
  - Handlers for restart/reload/stop events;
  - Bare bone configuration (*real* configuration should be left to user's template files; see **Usage** section below).
 
