@@ -31,18 +31,17 @@
   apt: update_cache=yes
 
 
+- block:
+    - name: install MongoDB with specific version
+      apt: name="mongodb-org={{ mongodb_version }}*"        state=present force=yes
 
-- name: install MongoDB with specific version
-  apt: name={{ item }}  update_cache=yes  state=present force=yes
-  with_items:
-    - "mongodb-org={{ mongodb_version }}*"
-    - "mongodb-org-shell={{ mongodb_version }}*"
-    - "mongodb-org-tools={{ mongodb_version }}*"
+    - apt: name="mongodb-org-shell={{ mongodb_version }}*"  state=present force=yes
+    - apt: name="mongodb-org-tools={{ mongodb_version }}*"  state=present force=yes
+
   when: mongodb_version is defined
 
 - name: install MongoDB with default version
-  apt: name={{ item }}  update_cache=yes  state=present force=yes
-  with_items: [ "mongodb-org" ]
+  apt: name=mongodb-org  state=present force=yes
   when: mongodb_version is not defined
 
 

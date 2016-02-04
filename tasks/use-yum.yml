@@ -15,17 +15,17 @@
   copy: src=../files/mongodb-org-3.0.repo dest=/etc/yum.repos.d/mongodb-org-3.0.repo
 
 
-- name: install MongoDB with specific version
-  yum: name={{ item }}  update_cache=yes  state=present
-  with_items:
-    - "mongodb-org-{{ mongodb_version }}*"
-    - "mongodb-org-shell-{{ mongodb_version }}*"
-    - "mongodb-org-tools-{{ mongodb_version }}*"
+- block:
+  - name: install MongoDB with specific version
+    yum: name="mongodb-org-{{ mongodb_version }}*"  update_cache=yes  state=present
+
+    yum: name="mongodb-org-shell-{{ mongodb_version }}*"  state=present
+    yum: name="mongodb-org-tools-{{ mongodb_version }}*"  state=present
+
   when: mongodb_version is defined
 
 - name: install MongoDB with default version
-  yum: name={{ item }}  update_cache=yes  state=present
-  with_items: [ "mongodb-org" ]
+  yum: name=mongodb-org  state=present
   when: mongodb_version is not defined
 
 

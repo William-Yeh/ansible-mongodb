@@ -8,7 +8,7 @@ williamyeh.mongodb for Ansible Galaxy
 
 ## Summary
 
-Role name in Ansible Galaxy: **[williamyeh.mongodb](https://galaxy.ansible.com/detail#/role/4405)**
+Role name in Ansible Galaxy: **[williamyeh.mongodb](https://galaxy.ansible.com/williamyeh/mongodb/)**
 
 This Ansible role has the following features for MongoDB:
 
