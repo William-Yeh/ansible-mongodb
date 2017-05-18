@@ -14,6 +14,10 @@
 #mongodb_version:           3.0.4     # will install the default (usually the latest stable) version, if not specified.
 
 
+mongodb_apt_version: 3.2     # when adding apt repo make sure to use the correct version, take a look at
+                             # http://repo.mongodb.org/apt/debian/dists/jessie/mongodb-org/
+
+
 # which components to install?
 # possible values:
 #  - "mongod"
